@@ -2,7 +2,7 @@ CREATE DATABASE popup_myynti;
 USE popup_myynti;
 
 CREATE TABLE IF NOT EXISTS tuotteet (
-    kategoria_id SMALLINT NOT NULL,
+    kategoria_id DECIMAL(4,2) NOT NULL,
     tuote_id SMALLINT NOT NULL,
     tuote_nimi VARCHAR(100),
     tukkuhinta DECIMAL(6 , 2 ) NOT NULL,
