@@ -1,0 +1,24 @@
+"kategoria_id","pääkategoria_nimi","alakategoria_nimi","alv"
+1.1,"Elintarvikkeet","Kahvit",14.0
+1.2,"Elintarvikkeet","Teet",14.0
+1.3,"Elintarvikkeet","Glögit",14.0
+1.4,"Elintarvikkeet","Suklaat",14.0
+1.5,"Elintarvikkeet","Muut makeiset",14.0
+1.6,"Elintarvikkeet","Piparit",14.0
+1.7,"Elintarvikkeet","Kuivat hedelmät ja pähkinät",14.0
+1.8,"Elintarvikkeet","Lahjakorit",14.0
+2.1,"Koristeet","Joulukuusen koristeet",24.0
+2.2,"Koristeet","Jouluvalot",24.0
+2.3,"Koristeet","Kranssit",24.0
+2.4,"Koristeet","Pöytäkoristeet",24.0
+2.5,"Koristeet","Kynttilät",24.0
+3.1,"Tekstiilit","Tonttulakit",24.0
+3.2,"Tekstiilit","Hiuspannat ja sarvet",24.0
+3.3,"Tekstiilit","Muut asusteet",24.0
+3.4,"Tekstiilit","Joulupukin asut",24.0
+3.5,"Tekstiilit","Kattaustekstiilit",24.0
+4.1,"Paperitavara","Soivat postikortit",24.0
+4.2,"Paperitavara","Tavalliset postikortit",24.0
+4.3,"Paperitavara","Paketointimateriaalit",24.0
+4.4,"Paperitavara","Postimerkit",24.0
+4.5,"Paperitavara","Servetit",24.0
