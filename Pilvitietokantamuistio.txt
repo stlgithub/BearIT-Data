@@ -48,3 +48,5 @@ Workbenchin ja RDS:n välille. Mahdollinen SSH:n .pem key .pkk sijaan. Pyöritet
 Perehdytään paremmin yhteysasetuksiin.
 
 Muut: Siivottiin hieman security grouppeja (eipäs siivottukaan), poistettiin RDS database ja EC2 instanssi. 
+
+#Pitkän tähtäimen suunnitelman kitata pirun pitkä kaljan, niin vikkelään kuin kurkku vetää#
