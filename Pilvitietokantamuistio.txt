@@ -1,3 +1,26 @@
+Versio 1.1
+
+Luotiin 2 kpl Amazon RDS database ja EC2 instanssi
+     -MySQL 8.0.36
+     -Free tier ilman Multi-AZ instanssia (ei tarvetta projektissa, maksullinen)
+     -db.t3.micro (2vCPU 1gb RAM)
+     -Storage 20gb, general purpose ssd
+     -Toinen RDS ilman EC2-sidosta ja toinen RDS kiinnitettiin EC2
+     -Tehtiin secure key .pem muodossa
+     Huomioita: Tarkoitus testata paikallisen tietokannan yhdistämistä julkisen yhteyden ja privaatti yhteyden kanssa. 
+
+Yhteys luotu MySQL Workbenchin ja RDS databasen kanssa.
+    -Yhdeyden luonti julkisen RDS:n kanssa epäonnistui
+    -Yhdeyden luonti EC2:n ja VPC:n kautta onnistui. Korjattu secury policyt ja .pem avain
+    -Luotu "Myynti" schema pilvipalvelimella sijaitsevalle RDS:lle. 
+    -Lisätty paikallisen Maaritin ja Villen tekemät taulut myös pilvipalvelimelle
+    -Lisätty tuotteet ja tuotekategorian data tietokantaan
+    
+
+Huomioita ja to do -juttuja. Jatketaan EC2 instanssilla testaamista -> miten voidaan tehdä kyselyitä Linuxin kautta juuri kytkemämme tietokannan kanssa.
+EC2 instassi ja RDS jätetty olemaan AWS:lle projektin seuraavaa vaihetta varten.
+
+
 Versio 1.0
 
 Luotiin uusi käyttäjä "KaMa" AWS admin konsoliin projektityötä varten:
@@ -12,7 +35,7 @@ Luotiin tietokantakopio "popup_myynti" MySQL Workbench.:
     Huomioita: muokataan sitä mukaan, kun tarvetta.
 Lopputulos: Tietokanta valmiina testiyhteyteen AWS pilvipalvelun kanssa.
 
-Luodaan EC2 instanssi:
+Luotiin EC2 instanssi:
     -Käyttöjärjestelmäksi valittu Linux 2023 AMI
     -Security policy luotu
     -muuten default
@@ -20,7 +43,7 @@ Luodaan EC2 instanssi:
 Lopputulos: Luotu EC2 instanssi "Projekti_Popup" linux, salatulla yhteydellä. Ainoastaan pääsy omalta IP:ltä tai itse consolista.
 
 
-Luodaan Amazon RDS database:
+Luotiin Amazon RDS database:
      -MySQL 8.0.36
      -Free tier ilman Multi-AZ instanssia (ei tarvetta projektissa, maksullinen)
      -db.t3.micro (2vCPU 1gb RAM)
@@ -49,4 +72,3 @@ Perehdytään paremmin yhteysasetuksiin.
 
 Muut: Siivottiin hieman security grouppeja (eipäs siivottukaan), poistettiin RDS database ja EC2 instanssi. 
 
-#Pitkän tähtäimen suunnitelman kitata pirun pitkä kaljan, niin vikkelään kuin kurkku vetää#
