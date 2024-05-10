@@ -1,3 +1,42 @@
+## Listataan vähän käsitteitä, jotta dokumentti on helpompi ymmärtää ##
+    - AWS = Amazon Web Service eli pilvipalvelu
+    - EC2 = Virtuaalikone, joka pyörii AWS:llä. Tässä tapauksessa Amazon Linux 2023 Käyttöjärjestelmä
+    - RDS = Relaatiotietokanta palveu, jolla voidaan asentaa, ylläpitää ja skaalata tietokantoja pilvessä
+    - S3 = AWS:n tiedostopavelu, pilvikovalevy tavallaan
+    - AZ = Availability zone, käytännössä data centereita. Yhdellä regionilla on yleensä useampi AZ
+    - Multi-AZ = Tämä tarkoittaa, että esim. tietokannalla on käytössä useampi AZ, jos toinen kyykkää niin yhteys siirtyy toiseen
+    - db.t3.micro = Tämä on vain prosessori RDS:lle.
+    - Secury Policy = Tällä määritellään esim. EC2 verkkoyhteydet. Mitkä IP:t on sallittua ja mikä on yhteysmuoto esim. ssh
+    - IAM = Identity and Access Management, tällä hallinnoidaan käyttäjäoikeuksia. Yleensä käytetään IAM-käyttäjää rootin sijaan.
+
+Jos kiinnostaa, niin kysy näistä lisää liharobotilta tai sitten konerobotilta.
+
+Veriso 1.2
+
+Asennettiin MySQL EC2 instanssin Linuxille
+    -MySQL container asennettiin onnistuneesti EC2 instanssille
+    -Yhdisettiin tietokantaan "Myynti"
+    -Tehtiin onnistuneesti: Haku tauluista, datan lisääminen tauluun ja datan poisto tauluista
+    -Luotiin ssh-yhteys onnistuneesti PuTTy:lla
+
+Huomioita: Opittiin poistamaan tai ohittamaan viallinen container Linux -asennuksessa. Myös opittiin käyttämään Linuxin MySQL queryja. Opittiin miten PuttyGen oikeasti toimii :data
+Lopputulos: Toivottu lopputulos. Saadaan nyt tehtyä asioita EC2 instanssin kautta.
+
+Mitä seuraavaksi: Käyttäjäoikeudet tai pääsy muille käyttäjille EC2 instanssiin? Tutkitaan lisää mitä voidaan tehdä tällä
+
+
+Tehtiin pitkä tutkimus pelkästään pilvessä olevasta tietokannasta eli jätetään Workbench yhteys tekemättä ja lisätään data suoraan RDS:lle.
+    -manuaalisesti tietokannan luonti onnistui ja voidaan sitten sitä kautta lisätä dataan suoraan pilveen
+    -Haluttiin saada valmis datadumppi tietokantaan, mutta useamman yritysten jälkeen tiedoston siirto epäonnistui -> täytyy tutkia lisää linuxia
+    -Ongelma saattaa olla myös AWS oikeuksissa.
+    -Luotiin S3 Bucket, jonne uploadiin .sql dumppi
+    -AWS komenntoriviltä ei saatu toivottau tulosta -> tutkittava oikeuksia, vaika adminit olemassa. Voi olla, että täytyy tehdä oikeudet vielä AWS CLI ja S3 bucketin osalta
+
+Huomioita: Paljon opittiin, mutta enemmän vielä oppimista. Linux CLI käytettävä mysql ei ole ehkä kaikkein käyttäjäystävällisin
+Lopputulos: Paljon selvitettävää eri oikeuksien ja linuxin osalta. Pohdittava myös onko järkeä käyttää aikaa CLI:n käyttön. Toki jos halutaan tietokannan olevan vain pilvessä, niin
+silloin RDS ilman Workbench yhteyttä on pakollinen. Aurora on maksullinen, joten se täytyy unohtaa tällä erää.
+
+
 Versio 1.1
 
 Luotiin 2 kpl Amazon RDS database ja EC2 instanssi
