@@ -85,7 +85,7 @@ CREATE TABLE `tuotekategoriat` (
   `alv` decimal(5,2) NOT NULL,
   PRIMARY KEY (`kategoria_id`),
   UNIQUE KEY `alakategoria_nimi` (`alakategoria_nimi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +113,7 @@ CREATE TABLE `tuotteet` (
   `myyntihinta` decimal(6,2) NOT NULL,
   PRIMARY KEY (`tuote_id`),
   UNIQUE KEY `tuote_nimi` (`tuote_nimi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
