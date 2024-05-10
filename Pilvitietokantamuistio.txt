@@ -6,7 +6,7 @@
     - AZ = Availability zone, käytännössä data centereita. Yhdellä regionilla on yleensä useampi AZ
     - Multi-AZ = Tämä tarkoittaa, että esim. tietokannalla on käytössä useampi AZ, jos toinen kyykkää niin yhteys siirtyy toiseen
     - db.t3.micro = Tämä on vain prosessori RDS:lle.
-    - Secury Policy = Tällä määritellään esim. EC2 verkkoyhteydet. Mitkä IP:t on sallittua ja mikä on yhteysmuoto esim. ssh
+    - Security Groups = Tällä määritellään esim. EC2 verkkoyhteydet. Mitkä IP:t on sallittua ja mikä on yhteysmuoto esim. ssh
     - IAM = Identity and Access Management, tällä hallinnoidaan käyttäjäoikeuksia. Yleensä käytetään IAM-käyttäjää rootin sijaan.
 
 Jos kiinnostaa, niin kysy näistä lisää liharobotilta tai sitten konerobotilta.
@@ -50,7 +50,7 @@ Luotiin 2 kpl Amazon RDS database ja EC2 instanssi
 
 Yhteys luotu MySQL Workbenchin ja RDS databasen kanssa.
     -Yhdeyden luonti julkisen RDS:n kanssa epäonnistui
-    -Yhdeyden luonti EC2:n ja VPC:n kautta onnistui. Korjattu secury policyt ja .pem avain
+    -Yhdeyden luonti EC2:n ja VPC:n kautta onnistui. Korjattu security groupsit ja .pem avain
     -Luotu "Myynti" schema pilvipalvelimella sijaitsevalle RDS:lle. 
     -Lisätty paikallisen Maaritin ja Villen tekemät taulut myös pilvipalvelimelle
     -Lisätty tuotteet ja tuotekategorian data tietokantaan
@@ -76,7 +76,7 @@ Lopputulos: Tietokanta valmiina testiyhteyteen AWS pilvipalvelun kanssa.
 
 Luotiin EC2 instanssi:
     -Käyttöjärjestelmäksi valittu Linux 2023 AMI
-    -Security policy luotu
+    -Security Groups luotu
     -muuten default
     -Huomioita: muutetaan tarpeiden mukaan.
 Lopputulos: Luotu EC2 instanssi "Projekti_Popup" linux, salatulla yhteydellä. Ainoastaan pääsy omalta IP:ltä tai itse consolista.
@@ -87,13 +87,13 @@ Luotiin Amazon RDS database:
      -Free tier ilman Multi-AZ instanssia (ei tarvetta projektissa, maksullinen)
      -db.t3.micro (2vCPU 1gb RAM)
      -Storage 20gb, general purpose ssd
-     -Lisästään RDS aiemmin tehtyyn EC2 instanssiin, tämä tuo omat securiy policyt EC2 instanssille
-     Huomioita: Security policyt eivät välttämättä mahdollista yhdeyden luomista tietokantaa vaan täytyy tehdä reititys EC2 instanssin kautta.
+     -Lisästään RDS aiemmin tehtyyn EC2 instanssiin, tämä tuo omat securiy groupsit EC2 instanssille
+     Huomioita: Security groupsit eivät välttämättä mahdollista yhdeyden luomista tietokantaa vaan täytyy tehdä reititys EC2 instanssin kautta.
 Lopputulos: Luotu tietokanta, joka on liitetty EC2 instanssiin "Projekti_Popup"
 
 Otetaan yhteys MySQL ja RDS välille:
     -RDS konsolista poimitaan endpoint osoite 'projektitietokanta.cf2o8asaax0s.eu-north-1.rds.amazonaws.com' ja kytketään EC2 instanssiin
-    -Muutettiin security policyä, jotta voidaan luoda yhteys instanssiin, region IP lisätty.
+    -Muutettiin security groups, jotta voidaan luoda yhteys instanssiin, region IP lisätty.
     -## note to self: tarkista miten muutetaan default username AMI.
     -Huomioita: Yritettiin ottaa yhteys Workbenchin ja RDS:n välille, mutta yhteyden otto epäonnistui.
     Mahdollisesti SSH-avain täytyy luoda .pem. Seuraavaksi kokeiltava luoda RDS ilman EC2 instanssia.
