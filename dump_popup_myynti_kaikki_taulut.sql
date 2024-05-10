@@ -31,7 +31,7 @@ CREATE TABLE `asiakas` (
   PRIMARY KEY (`asiakas_id`),
   UNIQUE KEY `Puhelinnumero_UNIQUE` (`puhelinnumero`),
   UNIQUE KEY `Sähköposti_UNIQUE` (`sähköposti`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +59,7 @@ CREATE TABLE `myynti` (
   PRIMARY KEY (`rivi_id`),
   KEY `Asiakas ID_idx` (`asiakas_id`),
   CONSTRAINT `asiakas_id` FOREIGN KEY (`asiakas_id`) REFERENCES `asiakas` (`asiakas_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
