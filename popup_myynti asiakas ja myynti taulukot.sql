@@ -31,6 +31,7 @@ CREATE TABLE `asiakas` (
   PRIMARY KEY (`asiakas_id`),
   UNIQUE KEY `Puhelinnumero_UNIQUE` (`puhelinnumero`),
   UNIQUE KEY `Sähköposti_UNIQUE` (`sähköposti`)
+  ADD CONSTRAINT check_not_both_null CHECK (`sähköposti` IS NOT NULL OR `puhelinnumero` IS NOT NULL);
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
