@@ -1,0 +1,46 @@
+Testauspäivyri
+
+Testi: Tietokannan poisto pilvipalvelusta ja palautus käyttäen Snapshot-toimintoa
+
+Tietokanta "Myynti" yhdistetty MySQL Workbencin kautta AWS:n RDS:lle (projektidatabase-ec2) EC2 instanssi (projekti-ec2) läpi
+-Tietokanta lisätty AWS:lle Workbenchin avulla. 
+-Tietokantaa voidaan päivittää ilman Workbenchia suoraa Linux CLI:ta
+-Tehtiin testi tietokannan poistosta (DROP TABLE), komento poisti tietokannan AWS:ltä ja Workbenchiltä.
+-Otettiin RDS:ltä (projektidatabase-ec2) Snapshot ja luotiin sillä uusi backup RDS "projektidatabase-ec2-backup".
+-Luotiin tätä varten uusi EC2 instanssi "backup-projektiin" oikealle AZ:lle ja yhdistettiin RDS (projektidatabase-ec2-backup) tähän EC2:lle (backup-projektiin).
+-Asennettiin EC2:lle (backup-projektiin) mysql
+        ### ~ sudo wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm 
+        ### ~ ls -lrt
+        ### ~ sudo dnf install mysql80-community-release-el9-1.noarch.rpm -y
+        ### ~ sudo dnf install mysql-community-server -y
+        ### ~ sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+        ### ~ sudo systemctl start mysqld
+        ### ~ sudo nano /etc/my.cnf --> Kirjaa: skip-grant-tables
+        ### ~ sudo systemctl restart mysqld
+        ### ~ mysql -h rds-endpoint -u username -p
+
+-Snapshotin palauttaminen onnistui odotetusti ja yllä tehdyillä toimenpiteillä saatiin palautettua poistettu tietokanta takaisin.
+-Luotiin Workbenchille yhteys "ProjektiDB-palautus" palautettuun pilvitietokantaan (projektidatabase-ec2-backup)
+
+Huomioita: Tämä varmaan onnistuu helpomminkin ja palautus samalla EC2.
+Opittiin: Käytännön kautta miten tietokanta pystytään palauttamaan, jos käy hupsista.
+
+Nyt projektilla olemassa kaksi EC2 instanssia ja RDS-pilvitietokantaa.
+
+Seuraavaksi testaan paikallisen tietokannan migrointia pilvipalvelulle. 
+
+@@@ Meillä on tietokanta MySQL Workbench localhostilla. Asiakas haluaa osan tietokannasta "popup_myynti" säilytettävän localhostilla ja osan AWS:n RDS:ssä "projektidatabase-ec2". @@@
+    -Siirrettävät taulut: myynti, tuotekategoriat, tuotteet --> Ei onnistu nykyisellä schemalla
+    -Paikallisella olevat taulut: asiakas, myynti, tuotekategoriat, tuotteet
+
+Huomiota: MySQL Workbenchin migraatio-työkalu ei siirtänyt dataa pilveen. 
+Ehdotus: Joko data luodaan manuaalisesti pilvessä SQL-quorylla tai luodaan koko tietokanta suoraa pilveen. 
+
+Kokeillaan luoda testitietokanta ja muutetaan schemaa, jolla ei asiakas-tauluun yhteyttä muista tauluista. 
+Tai kokeillaan luoda testitietokanta pilveen ilman asiakas-taulua 
+
+To Do: 
+
+-Selvitä pystytäänkö taulukon sisältö ajamaan NULL kentillä tiettyjen columenjen osalta.
+-Tee testitietokanta ja yritetään muuttaa taulujen yhteyksiä siten, että "asiakas"-taulu jää pilvitietokannan ulkopuolelle
+-Tee testitietokanta ilman "asiakas" -taulua.
