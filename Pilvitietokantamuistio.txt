@@ -11,10 +11,20 @@
 
 Jos kiinnostaa, niin kysy näistä lisää liharobotilta tai sitten konerobotilta.
 
-Veriso 1.2
+
+Versio 1.2
 
 Asennettiin MySQL EC2 instanssin Linuxille
     -MySQL container asennettiin onnistuneesti EC2 instanssille
+        ### ~ sudo wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm 
+        ### ~ ls -lrt
+        ### ~ sudo dnf install mysql80-community-release-el9-1.noarch.rpm -y
+        ### ~ sudo dnf install mysql-community-server -y
+        ### ~ sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+        ### ~ sudo systemctl start mysqld
+        ### ~ sudo nano /etc/my.cnf --> Kirjaa: skip-grant-tables
+        ### ~ sudo systemctl restart mysqld
+        ### ~ mysql -h rds-endpoint -u username -p
     -Yhdisettiin tietokantaan "Myynti"
     -Tehtiin onnistuneesti: Haku tauluista, datan lisääminen tauluun ja datan poisto tauluista
     -Luotiin ssh-yhteys onnistuneesti PuTTy:lla
