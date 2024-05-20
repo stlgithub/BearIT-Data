@@ -1,8 +1,11 @@
 # BearIT-Data
 
 Kari-Matti Sillanpää  -  Cloud Database                      -  Linkedin / Github
+
 Maarit Ahlgren        -  Local Database / Data-Analysis      -  Linkedin / Github
-Ville Naumanen        -  Local Database / Data-Analysis      -  Linkedin / Github        
+
+Ville Naumanen        -  Local Database / Data-Analysis      -  Linkedin / Github  
+
 Sami Lappalainen      -  Scrum Master / PM / Data-Analysis   -  Linkedin / Github 
 
 Summary:
