@@ -34,7 +34,7 @@ Seuraavaksi testaan paikallisen tietokannan migrointia pilvipalvelulle.
     -Paikallisella olevat taulut: asiakas, myynti, tuotekategoriat, tuotteet
 
 Huomiota: MySQL Workbenchin migraatio-työkalu ei siirtänyt dataa pilveen. 
-Ehdotus: Joko data luodaan manuaalisesti pilvessä SQL-quorylla tai luodaan koko tietokanta suoraa pilveen. 
+Ehdotus: Joko data luodaan manuaalisesti pilvessä SQL-querylla tai luodaan koko tietokanta suoraa pilveen. 
 
 Kokeillaan luoda testitietokanta ja muutetaan schemaa, jolla ei asiakas-tauluun yhteyttä muista tauluista. 
 Tai kokeillaan luoda testitietokanta pilveen ilman asiakas-taulua 
@@ -44,3 +44,80 @@ To Do:
 -Selvitä pystytäänkö taulukon sisältö ajamaan NULL kentillä tiettyjen columenjen osalta.
 -Tee testitietokanta ja yritetään muuttaa taulujen yhteyksiä siten, että "asiakas"-taulu jää pilvitietokannan ulkopuolelle
 -Tee testitietokanta ilman "asiakas" -taulua.
+
+Ehdotus: Luodaan väliaikainen asiakas-taulu ja käytetään "NULL" -arvoja sensitiivisten tietojen osalta.
+    NULL AS "puhelinnumero" ja NULL AS "sähköposti"
+
+Haasteita: Saada Data importtia MySQL Workbenchistä. Käyttäjä ongelmia, varmaan tulisi asentaa koko palvelin uudestaan. Tehdään kierotie
+ja lisätään luodaan suoraa pilvitietokantaan toinen schema, jossa sitten luodaan väliaikainen asiakas-taulu.
+
+!! Muista vaihtaa julkinen IP, kun olet käynnistänyt EC2 instanssin !!
+
+1. Luodaan "Myynti" tietokanta popup_myynti valmis.sql SQL-dumpilla. "Myynti" -niminen tietokanta testausta varten.
+
+2. Luodaan väliaikainen "asiakas_temp"-taulu:
+
+CREATE TABLE asiakas_temp AS
+SELECT asiakas_id, NULL AS puhelinnumero, NULL AS sähköposti, ikä, sukupuoli
+FROM asiakas;
+
+3. Pudotetaan "asiakas"-taulu:
+
+DROP TABLE IF EXISTS asiakas;
+
+Huomio: Epäonnistui koska tauluissa myynti ja asiakas on yhteys
+    "Error Code: 3730. Cannot drop table 'asiakas' referenced by a foreign key constraint 'asiakas_id' on table 'myynti'."
+
+Ratkaisuehdotus: Muutetaan taulua ja poistetaan "myynti"-taulusta FOREIGN KEY asiakas_id
+    
+    ALTER TABLE myynti DROP FOREIGN KEY asiakas_id;
+
+Lopputulos: Yhteys poistettu onnistuneesti.
+
+3.1 Pudotetaan "asiakas"-taulu:
+
+DROP TABLE IF EXISTS asiakas;
+
+4. Muutetaan "asiakas_temp"-taulu "asiakas"-tauluksi
+
+RENAME TABLE asiakas_temp TO asiakas;
+
+5. Luodaan yhteys "asiakas"-taulun ja "myynti"-taulun välille. 
+
+ALTER TABLE myynti ADD CONSTRAINT fk_asiakas_id FOREIGN KEY (asiakas_id) REFERENCES asiakas(asiakas_id);
+
+Huomio: Epäonnistui puuttuvan indexin vuoksi
+    "Error Code: 1822. Failed to add the foreign key constraint. Missing index for constraint 'fk_asiakas_id' in the referenced table 'asiakas'"
+
+Ratkaisuehdotus: Kysytty GPT:ltä syytä. Ratkaisuehdotukseksi tarjottu indeksin luominen "asiakas"-taulun viitattuun sarakkeeseen ja siten yrittää lisätä viiteavain uudelleen.
+
+ALTER TABLE asiakas ADD INDEX idx_asiakas_id (asiakas_id);
+
+ALTER TABLE myynti ADD CONSTRAINT fk_asiakas_id FOREIGN KEY (asiakas_id) REFERENCES asiakas(asiakas_id);
+
+Lopputulos: Yhteys palautettu taulujen välille, mutta Primary Key puuttuu nyt "asiakas"-taulusta. Ratkaisu, listään Primary Key tauluun.
+
+ALTER TABLE asiakas ADD PRIMARY KEY (asiakas_id);
+
+6. Testattiin vielä haulla ja taulujen väliset yhteydet toimivat. Query by Maarit:
+
+SELECT 
+		MONTH(myynti.aika) AS kuukausi,
+        SUM(tuotteet.myyntihinta) AS bruttomyynti,
+        ROUND(AVG(tuotteet.myyntihinta),2) AS keskihinta,
+        COUNT(DISTINCT myynti.ostotapahtuma_id) AS ostosten_määrä,
+        COUNT(myynti.ostotapahtuma_id) AS myytyjä_tuotteita,
+        ROUND(SUM(tuotteet.myyntihinta) / COUNT(DISTINCT myynti.ostotapahtuma_id),2) AS keskiostos_sis_alv,
+        ROUND(SUM(myynti.ostotapahtuma_id) / COUNT(DISTINCT myynti.ostotapahtuma_id),2) AS tuotteita_keskimäärin_per_as,
+        COUNT(DISTINCT CASE WHEN myynti.asiakas_id IS NOT NULL THEN myynti.ostotapahtuma_id END) AS 'kanta-asiakasostoja',
+        COUNT(DISTINCT CASE WHEN asiakas.sukupuoli = 'M' THEN myynti.ostotapahtuma_id END) AS miesasiakkaat,
+        COUNT(DISTINCT CASE WHEN asiakas.sukupuoli = 'F' THEN myynti.ostotapahtuma_id END) AS naisasiakkaat
+        FROM myynti
+        JOIN tuotteet ON tuotteet.tuote_id = myynti.tuote_id
+        JOIN asiakas ON asiakas.asiakas_id = myynti.asiakas_id
+        GROUP BY kuukausi;
+
+
+Tämän perusteella voidaan siirtää tietokanta tuotantoon.
+
+
