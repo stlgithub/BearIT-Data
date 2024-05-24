@@ -19,8 +19,8 @@ Asennettiin MySQL EC2 instanssin Linuxille
         ### ~ sudo wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm 
         ### ~ ls -lrt
         ### ~ sudo dnf install mysql80-community-release-el9-1.noarch.rpm -y
-        ### ~ sudo dnf install mysql-community-server -y
         ### ~ sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+        ### ~ sudo dnf install mysql-community-server -y
         ### ~ sudo systemctl start mysqld
         ### ~ sudo nano /etc/my.cnf --> Kirjaa: skip-grant-tables
         ### ~ sudo systemctl restart mysqld
