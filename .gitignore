@@ -1,0 +1,13 @@
+
+create_database_popup_myynti.sql
+*.sql
+database model popup myynti.mwb
+database model popup myynti.mwb.bak
+dump_popup_myynti_kaikki_taulut.sql
+popup_myynti_unsigned+check_lisätty.sql
+create_database_popup_myynti.sql
+database model popup myynti.mwb
+database model popup myynti.mwb.bak
+dump_popup_myynti_kaikki_taulut.sql
+popup_myynti_unsigned+check_lisätty.sql
+README.md
