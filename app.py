@@ -152,7 +152,7 @@ if st.session_state.logged_in or st.session_state.use_csv:
     page = st.sidebar.selectbox("Valitse sivu:", ["Asiakas", "Myynti", "Datan Syöttö", "Datan Poisto", "Datan Muokkaus", "Tietokannat"])
 
     def page_asiakas():
-        st.write('asiakas.csv')
+        st.dataframe('asiakas.csv')
         query_ika_sukupuoli = "SELECT ikä, sukupuoli FROM asiakas"
         df = fetch_data(query_ika_sukupuoli)
         gender_counts = df['sukupuoli'].value_counts()
