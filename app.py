@@ -4,7 +4,7 @@ import plotly.express as px
 import mysql.connector
 from datetime import datetime
 
-
+conn = st.connection('mysql', type='sql')
 def get_db_connection(username, password):
     connection = mysql.connector.connect(
         host='localhost',
