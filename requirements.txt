@@ -1,4 +1,3 @@
 pandas
 plotly
 mysql.connector
-mysqlclient
