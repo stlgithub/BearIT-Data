@@ -4,7 +4,6 @@ import plotly.express as px
 import mysql.connector
 from datetime import datetime
 
-
 def get_db_connection(username, password):
     connection = mysql.connector.connect(
         host='localhost',
@@ -24,22 +23,29 @@ def validate_login(username, password):
 
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
+    st.session_state.use_csv = False
 
-
-if not st.session_state.logged_in:
-    st.title("Input username and password")
+if not st.session_state.logged_in and not st.session_state.use_csv:
+    st.title("Input username and password or skip login")
     tunnus = st.text_input("Username")
     salasana = st.text_input("Password", type="password")
 
-    if st.button("Login"):
-        if validate_login(tunnus, salasana):
-            st.session_state.logged_in = True
-            st.session_state.username = tunnus
-            st.session_state.password = salasana
-            st.success("Login successful")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Login"):
+            if validate_login(tunnus, salasana):
+                st.session_state.logged_in = True
+                st.session_state.username = tunnus
+                st.session_state.password = salasana
+                st.success("Login successful")
+                st.experimental_rerun()
+            else:
+                st.error("Invalid username or password")
+    with col2:
+        if st.button("Skip Login"):
+            st.session_state.use_csv = True
+            st.success("Skipped login")
             st.experimental_rerun()
-        else:
-            st.error("Invalid username or password")
 
 def insert_data(query, values):
     connection = get_db_connection(st.session_state.username, st.session_state.password)
@@ -62,11 +68,20 @@ def delete_data(query, values):
     connection.close()
 
 def fetch_data(query):
-    connection = get_db_connection(st.session_state.username, st.session_state.password)
-    df = pd.read_sql(query, connection)
-    connection.close()
-    return df
-
+    if st.session_state.use_csv:
+        if "asiakas" in query.lower():
+            return pd.read_csv('asiakas.csv')
+        elif "myynti" in query.lower():
+            return pd.read_csv('myynti.csv')
+        elif "tuotekategoriat" in query.lower():
+            return pd.read_csv('tuotekategoriat.csv')
+        elif "tuotteet" in query.lower():
+            return pd.read_csv('tuotteet.csv')
+    else:
+        connection = get_db_connection(st.session_state.username, st.session_state.password)
+        df = pd.read_sql(query, connection)
+        connection.close()
+        return df
 
 def update_data(table_name, record_id, values):
     connection = get_db_connection(st.session_state.username, st.session_state.password)
@@ -132,7 +147,7 @@ update_queries = {
 
 }
 
-if st.session_state.logged_in:
+if st.session_state.logged_in or st.session_state.use_csv:
     st.sidebar.title("Navigaatio")
     page = st.sidebar.selectbox("Valitse sivu:", ["Asiakas", "Myynti", "Datan Syöttö", "Datan Poisto", "Datan Muokkaus", "Tietokannat"])
 
@@ -187,211 +202,74 @@ if st.session_state.logged_in:
         df2['aika'] = pd.to_datetime(df2['aika'])
         df2['pvm'] = df2['aika'].dt.date
         df2['klo'] = df2['aika'].dt.time
-        pv_myynti = df2[["tuote_id", "ostotapahtuma_id", "pvm", "klo"]]
-        pv_myynti = pv_myynti.dropna(subset=['pvm'])
-        col6, col7, col8 = st.columns([2,2,2])
-        with col6:
+        pv_myynti = df2.groupby('pvm').size().reset_index(name='sales_count')
+        month_myynti = df2.groupby(df2['aika'].dt.to_period('M')).size().reset_index(name='sales_count')
+        dayofweek_myynti = df2.groupby(df2['aika'].dt.day_name()).size().reset_index(name='sales_count')
+        busiest_day = dayofweek_myynti.loc[dayofweek_myynti['sales_count'].idxmax()]
 
-            selected_date = st.selectbox('Valitse Päivä:', pv_myynti['pvm'].unique())
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            fig = px.line(pv_myynti, x='pvm', y='sales_count', title='Myyntien kehitys päivittäin')
+            st.plotly_chart(fig)
+        with col2:
+            fig = px.line(month_myynti, x='aika', y='sales_count', title='Myyntien kehitys kuukausittain')
+            st.plotly_chart(fig)
+        with col3:
+            fig = px.bar(dayofweek_myynti, x='aika', y='sales_count', title='Myyntien kehitys viikonpäivittäin')
+            st.plotly_chart(fig)
+            st.write("Busiest day of the week for sales:", busiest_day['aika'])
+            st.write("Number of sales on busiest day:", busiest_day['sales_count'])
 
-        filtered_df = pv_myynti[pv_myynti['pvm'] == selected_date]
+    def page_datan_syotto():
+        table_name = st.selectbox("Valitse taulu:", ["Myynti", "Asiakas", "Tuotekategoriat", "Tuotteet"])
+        if table_name:
+            columns = [col.strip() for col in insert_queries[table_name].split('(')[1].split(')')[0].split(',')]
+            inputs = {}
+            for column in columns:
+                inputs[column] = st.text_input(column)
 
-        filtered_df = filtered_df.drop(columns=['pvm'])
+            if st.button("Insert data"):
+                values = tuple(inputs[col] for col in columns)
+                insert_data(insert_queries[table_name], values)
+                st.success(f'Data inserted into {table_name}')
 
-        with col7:
-            selected_hour = st.selectbox('Valitse Aika:', filtered_df['klo'].unique())
-            checkbox_aika = st.checkbox('Käytä valittua kellonaikaa')
-        with col8:
-            selected_sale = st.selectbox('Valitse Ostotapahtuma:', filtered_df['ostotapahtuma_id'].unique())
-            checkbox_osto = st.checkbox('Käytä valittua ostotapahtumaa')
-        num_checked = sum([checkbox_aika, checkbox_osto])
+    def page_datan_poisto():
+        table_name = st.selectbox("Valitse taulu:", ["Myynti", "Asiakas", "Tuotekategoriat", "Tuotteet"])
+        if table_name:
+            record_id = st.text_input(f"Anna poistettavan tietueen ID ({list(delete_queries[table_name].split()[3])[-2]}):")
+            if st.button("Poista data"):
+                delete_data(delete_queries[table_name], (record_id,))
+                st.success(f'Data deleted from {table_name}')
 
-        if checkbox_aika:
-            st.write('Valittu ajankohta:', selected_date, selected_hour)
-        elif checkbox_osto:
-            st.write('Valittu ajankohta:', selected_date,"Valittu ostotapahtuma: ", selected_sale)
-        else:
-            st.write('Valittu ajankohta:', selected_date)
-
-        filtered_df2 = filtered_df[filtered_df['klo'] == selected_hour]
-        filtered_df2 = filtered_df2.drop(columns=['klo'])
-        filtered_df3 = filtered_df[filtered_df['ostotapahtuma_id'] == selected_sale]
-        filtered_df3 = filtered_df3.drop(columns=['ostotapahtuma_id'])
-        col9, col10 = st.columns(2)
-        with col9:
-            if num_checked < 2:
-                if checkbox_aika:
-                    st.write('Ostotapahtumat:', filtered_df2)
-                    sales_count = filtered_df2['tuote_id'].value_counts().reset_index()
-                    sales_count.columns = ['Item', 'Sales Count']
-                elif checkbox_osto:
-                    sales_count = filtered_df3['tuote_id'].value_counts().reset_index()
-                    sales_count.columns = ['Item', 'Sales Count']
-                    st.write('Ostotapahtumat:', filtered_df3)
-
-                else:
-                    st.write('Ostotapahtumat:', filtered_df)
-                    sales_count = filtered_df['tuote_id'].value_counts().reset_index()
-                    sales_count.columns = ['Item', 'Sales Count']
-                    fig_treemap = px.treemap(sales_count, path=['Item'], values='Sales Count', title='Ostot tuotteittain')
-                    st.plotly_chart(fig_treemap)
-                with col10:
-                    if checkbox_aika:
-                        fig_treemap = px.treemap(sales_count, path=['Item'], values='Sales Count', title='Ostot tuotteittain')
-                        st.plotly_chart(fig_treemap)
-                        fig_pie = px.pie(sales_count, values='Sales Count', names='Item', title='Ostot tuotteittain')
-                        st.plotly_chart(fig_pie)
-                    elif checkbox_osto:
-                        fig_treemap = px.treemap(sales_count, path=['Item'], values='Sales Count', title='Ostot tuotteittain')
-                        st.plotly_chart(fig_treemap)
-                        fig_pie = px.pie(sales_count, values='Sales Count', names='Item', title='Ostot tuotteittain')
-                        st.plotly_chart(fig_pie)
-                    else:
-                        fig7 = px.histogram(filtered_df, x='klo')
-                        st.plotly_chart(fig7)
-                        df2['date'] = df2['aika'].dt.date
-                        myynti_by_date = df2.groupby('date').size().reset_index(name='SalesCount')
-                        fig6 = px.line(myynti_by_date, x='date', y='SalesCount', 
-                                    title='Myynnin jakautuminen päivittäin')
-                        st.plotly_chart(fig6)
-            else:
-                st.title("Valitse vain yksi: kellonaika tai ostotapahtuma.")
-
-    def page_input():
-        st.title("Syötä Dataa Tietokantaan")
-        st.write("Valitse taulu johon haluat syöttää dataa:")
-
-        table = st.selectbox("Valitse taulu", ["Myynti", "Asiakas", "Tuotekategoriat", "Tuotteet"])
-        st.write(f"Syötetään dataa tauluun: {table}")
-        
-        if table == "Myynti":
-            rivi_id = st.number_input("Rivi ID", min_value=0)
-            ostotapahtuma_id = st.number_input("Ostotapahtuma ID", min_value=0)
-            tuote_id = st.number_input("Tuote ID", min_value=0)
-            asiakas_id = st.number_input("Asiakas ID", min_value=0)
-            aika = st.text_input("Aika (YYYY-MM-DD HH:MM:SS)",  value=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-            values = (rivi_id, ostotapahtuma_id, tuote_id, asiakas_id, aika)
-        elif table == "Asiakas":
-            asiakas_id = st.number_input("Asiakas ID", min_value=0)
-            puhelinnumero = st.text_input("Puhelinnumero")
-            sähköposti = st.text_input("Sähköposti")
-            ikä = st.number_input("Ikä", min_value=0)
-            sukupuoli = st.text_input("Sukupuoli")
-            values = (asiakas_id, puhelinnumero, sähköposti, ikä, sukupuoli)
-        elif table == "Tuotekategoriat":
-            kategoria_id = st.number_input("Kategoria ID", min_value=0)
-            pääkategoria_nimi = st.text_input("Pääkategoria nimi")
-            alakategoria_nimi = st.text_input("Alakategoria nimi")
-            alv = st.number_input("ALV", min_value=0)
-            values = (kategoria_id, pääkategoria_nimi, alakategoria_nimi, alv)
-        elif table == "Tuotteet":
-            kategoria_id = st.number_input("Kategoria ID", min_value=0)
-            tuote_id = st.number_input("Tuote ID", min_value=0)
-            tuote_nimi = st.text_input("Tuote nimi")
-            tukkuhinta = st.number_input("Tukkuhinta", min_value=0)
-            myyntihinta = st.number_input("Myyntihinta", min_value=0)
-            values = (kategoria_id, tuote_id, tuote_nimi, tukkuhinta, myyntihinta)
-
-        if st.button("Syötä data"):
-            if all(values):
-                insert_data(insert_queries[table], values)
-                st.success('Datan syöttö onnistui!')
-            else:
-                st.error("Virhe! Muista täyttää kaikki kentät!")
-
-    def page_delete():
-        st.title("Poista Dataa Tietokannasta")
-        st.write("Valitse taulu, josta haluat poistaa dataa:")
-
-        table = st.selectbox("Valitse taulu", ["Myynti", "Asiakas", "Tuotekategoriat", "Tuotteet"])
-        st.write(f"Poistetaan dataa taulusta: {table}")
-        
-        if table == "Myynti":
-            rivi_id = st.number_input("Rivi ID", min_value=0)
-            key_value = (rivi_id,)
-        elif table == "Asiakas":
-            asiakas_id = st.number_input("Asiakas ID", min_value=0)
-            key_value = (asiakas_id,)
-        elif table == "Tuotekategoriat":
-            kategoria_id = st.number_input("Kategoria ID", min_value=0)
-            key_value = (kategoria_id,)
-        elif table == "Tuotteet":
-            tuote_id = st.number_input("Tuote ID", min_value=0)
-            key_value = (tuote_id,)
-        
-        if st.button("Poista data"):
-            if key_value:
-                delete_data(delete_queries[table], key_value)
-                st.success('Datan poisto onnistui!')
-            else:
-                st.error("Virhe! Muista anntaa poistettava ID!")
-
-    def page_update():
-        st.title("Muokkaa Dataa Tietokannassa")
-        st.write("Valitse taulu, jota haluat muokata:")
-
-        table = st.selectbox("Valitse taulu", ["Myynti", "Asiakas", "Tuotekategoriat", "Tuotteet"])
-        st.write(f"Muokataan dataa taulussa: {table}")
-        
-        if table == "Myynti":
-            record_id = st.number_input("Rivi ID (muutettava)", min_value=0)
-            rivi_id = st.number_input("Uusi Rivi ID", min_value=0)
-            ostotapahtuma_id = st.number_input("Uusi Ostotapahtuma ID", min_value=0)
-            tuote_id = st.number_input("Uusi Tuote ID", min_value=0)
-            asiakas_id = st.number_input("Uusi Asiakas ID", min_value=0)
-            aika = st.text_input("Uusi Aika (YYYY-MM-DD HH:MM:SS)",  value=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-            values = (rivi_id, ostotapahtuma_id, tuote_id, asiakas_id, aika)
-        elif table == "Asiakas":
-            record_id = st.number_input("Asiakas ID (muutettava)", min_value=0)
-            asiakas_id = st.number_input("Uusi Asiakas ID", min_value=0)
-            puhelinnumero = st.text_input("Uusi Puhelinnumero")
-            sähköposti = st.text_input("Uusi Sähköposti")
-            ikä = st.number_input("Uusi Ikä", min_value=0)
-            sukupuoli = st.text_input("Uusi Sukupuoli")
-            values = (asiakas_id, puhelinnumero, sähköposti, ikä, sukupuoli)
-        elif table == "Tuotekategoriat":
-            record_id = st.number_input("Kategoria ID (muutettava)", min_value=0)
-            kategoria_id = st.number_input("Uusi Kategoria ID", min_value=0)
-            pääkategoria_nimi = st.text_input("Uusi Pääkategoria nimi")
-            alakategoria_nimi = st.text_input("Uusi Alakategoria nimi")
-            alv = st.number_input("Uusi ALV")
-            values = (kategoria_id, pääkategoria_nimi, alakategoria_nimi, alv)
-        elif table == "Tuotteet":
-            record_id = st.number_input("Tuote ID (muutettava)", min_value=0)
-            kategoria_id = st.number_input("Uusi Kategoria ID", min_value=0)
-            tuote_id = st.number_input("Uusi Tuote ID", min_value=0)
-            tuote_nimi = st.text_input("Uusi Tuote nimi")
-            tukkuhinta = st.number_input("Uusi Tukkuhinta", min_value=0)
-            myyntihinta = st.number_input("Uusi Myyntihinta", min_value=0)
-            values = (kategoria_id, tuote_id, tuote_nimi, tukkuhinta, myyntihinta)
-
-        if st.button("Muokkaa dataa"):
-            if all(values):
-                update_data(table, record_id, values)
-                st.success('Datan muokkaus onnistui!')
-            else:
-                st.error("Virhe! Muista täyttää kaikki kentät!")
+    def page_datan_muokkaus():
+        table_name = st.selectbox("Valitse taulu:", ["Myynti", "Asiakas", "Tuotekategoriat", "Tuotteet"])
+        if table_name:
+            record_id = st.text_input(f"Anna muokattavan tietueen ID ({list(update_queries[table_name].split()[1])[-2]}):")
+            columns = [col.strip() for col in insert_queries[table_name].split('(')[1].split(')')[0].split(',')]
+            updates = {}
+            for column in columns:
+                updates[column] = st.text_input(column)
+            if st.button("Päivitä data"):
+                values = tuple(updates[col] for col in columns)
+                update_data(table_name, record_id, values)
 
     def page_tietokannat():
-        st.title("Tietokantanäkymä")
-        table_name = st.selectbox('Valitse taulukko:', ["Asiakas", "Myynti", "Tuotekategoriat", "Tuotteet"])  # Add your table names here
-        if st.button('Lataa Data'):
-            try:
-                data = fetch_data(f"SELECT * FROM {table_name}")
-                st.dataframe(data)
-            except Exception as e:
-                st.error(f'Virhe hakiessa dataa: {e}')
+        tables = ["asiakas", "myynti", "tuotekategoriat", "tuotteet"]
+        for table in tables:
+            st.write(f"Table: {table}")
+            query = f"SELECT * FROM {table}"
+            df = fetch_data(query)
+            st.write(df)
 
-    # Page display logic
     if page == "Asiakas":
         page_asiakas()
     elif page == "Myynti":
         page_myynti()
     elif page == "Datan Syöttö":
-        page_input()
+        page_datan_syotto()
     elif page == "Datan Poisto":
-        page_delete()
+        page_datan_poisto()
+    elif page == "Datan Muokkaus":
+        page_datan_muokkaus()
     elif page == "Tietokannat":
         page_tietokannat()
-    elif page == "Datan Muokkaus":
-        page_update()
