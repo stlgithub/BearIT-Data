@@ -7,8 +7,8 @@ from datetime import datetime
 def get_db_connection(username, password):
     connection = mysql.connector.connect(
         host='localhost',
-        user=st.secrets["username"],
-        password=st.secrets["password"],
+        user=username,
+        password=password,
         database='popup_myynti'
     )
     return connection
