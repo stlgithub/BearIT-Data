@@ -16,16 +16,16 @@
 ## Team Members
 
 - **Kari-Matti Sillanpää**
-  - Pilvitietokannan suunnittelu ja toteutus // Cloud database design and implementation 
+  - Cloud database design and implementation 
   - [Linkedin](https://linkedin.com/in/kari-matti-sillanpaa) / [GitHub](https://github.com/sillaka1)
 - **Maarit Ahlgren**
-  - Paikallisen tietokannan suunnittelu ja toteutus, PowerBI data-analyysi // Local database design and implementation, PowerBI data-analysis
+  - Local database design and implementation, PowerBI data-analysis
   - [Linkedin](https://linkedin.com/in/maarit-a-7a20b8197) / [GitHub](https://github.com/ahlanmaa)
 - **Ville Naumanen**
-  - Paikallisen tietokannan suunnittelu ja toteutus, PowerBI data-analyysi // Local database design and implementation, PowerBI data-analysis
+  - Local database design and implementation, PowerBI data-analysis
   - [Linkedin](https://linkedin.com/in/villenaumanen) / [GitHub](https://github.com/NaumVi)
 - **Sami Lappalainen**
-  - Scrum Master/Project Manager, Streamlit ja Nettisivu // Scrum Master/Project Manager, Streamlit and Webpage
+  - Scrum Master/Project Manager, Streamlit and Webpage
   - [Linkedin](https://linkedin.com/in/sami-lappalainen) / [GitHub](https://github.com/stlgithub)
 
 ## Project Overview
