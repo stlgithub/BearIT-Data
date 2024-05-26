@@ -36,11 +36,11 @@ Project Description...
 
 ### Tiivistelmä // Summary
 
-Description of Title 1...
+Tämä projekti oli osa BearIT:n ICT-Camp:iä. Ryhmämme loi kuvitteelliselle 
 
 ### Työskentelytavat ja Teknologiat // Methods and Technologies
 
-Description of Title 2...
+Scrum, Github/Github Projects, Google, MySQL, PowerBI, AWS, Python (Streamlit), HTML / CSS
 
 ### Suunnittelu // Planning
 
