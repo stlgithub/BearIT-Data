@@ -1,19 +1,19 @@
-# Pop-Up Joulumyymälä -dataprojekti - [Click Here for English](README_eng.md)
+# Christmas Pop-Up Shop -dataproject - [Click Here for Finnish](README.md)
 
-## Sisällysluettelo
+## Table of Contents
 
-1. [Ryhmän Jäsenet](#ryhmän_jäsenet)
-2. [Projektin Yleiskatsaus](#projektin_yleiskatsaus)
-   - [Tiivistelmä](#tiivistelmä)
-   - [Työskentelytavat ja Teknologiat](#työskentelytavat_ja_teknologiat)
-   - [Suunnittelu](#suunnittelu)
+1. [Team Members](#team-members)
+2. [Project Overview](#project-overview)
+   - [Summary](#summary)
+   - [Methods and Technologies](#methods-and-technologies)
+   - [Planning](#planning)
    - [Sprint 1](#sprint-1)
    - [Sprint 2](#sprint-2)
-3. [Käyttöohjeet](#käyttöohjeet)
+3. [How to Use](#how-to-use)
 
 ---
 
-## Ryhmän Jäsenet
+## Team Members
 
 - **Kari-Matti Sillanpää**
   - Pilvitietokannan suunnittelu ja toteutus // Cloud database design and implementation 
@@ -28,18 +28,18 @@
   - Scrum Master/Project Manager, Streamlit ja Nettisivu // Scrum Master/Project Manager, Streamlit and Webpage
   - [Linkedin](https://linkedin.com/in/sami-lappalainen) / [GitHub](https://github.com/stlgithub)
 
-## Projektin Yleiskatsaus
+## Project Overview
 
-### Tiivistelmä
+### Summary
 
 BearIT:n ICT-Campissa toteutettu harjoitusprojekti, jonka tarkoituksena oli datan käsittelyn opettelu ja harjoittelu. Projektin päätavoitteena oli luoda erilaisia tietokantoja ja toteuttaa monipuolisia data-analyysejä, samalla tutustuen ketteriin kehitysmenetelmiin. Projekti kesti neljä viikkoa, jotka oli jaettu kahteen sprinttiin. Näiden viikkojen aikana opiskeltiin myös laajemmin IT-alaan liittyviä aiheita BearIT tarjoamien kurssien kautta ja alan ammattilaisten pitämillä luennoilla.
 
-### Työskentelytavat ja Teknologiat
+### Methods and Technologies
 
 Projektissa käytettiin Scrum-menetelmää projektinhallintaan, mikä auttoi hallitsemaan työskentelyä sprinttien aikana. Versiohallinta hoidettiin Githubin avulla, ja Github Projects toimi kanban-/sprint-tauluna. Tiimityöskentelyyn käytettiin Googlen työkaluja, kuten Google Meet ja Google Docs.
 Paikallinen palvelin rakennettiin käyttäen MySQL:ä ja data-analyysit toteutettiin PowerBI:llä. Pilvipalvelin luotiin AWS:n avulla ja verkkopohjainen datanäkymä, sekä sen CRUD-toiminnot toteutettiin Pythonin Streamlit-kirjastoa hyödyntäen. Projektin dokumentaatiota varten koottiin myös verkkosivu, joka luotiin HTML:n ja CSS:n avulla.
 
-### Suunnittelu
+### Planning
 
 Ennen ensimmäistä Sprinttiä, luotiin projektin suunnitelma ja siihen pohjautuvat käyttäjätarinat, sekä sprint-taulu.
 Projektin suunnitelmana oli luoda kuvitteelliselle pop-up joulumyymälälle paikallinen tietokanta, joka kerää tietoa kanta-asiakkaista, tuotteista, tuotekategorioista ja ostotapahtumista. Paikallisen tietokannan lisäksi myymälälle suunniteltaisiin pilvitietokanta, johon paikallinen data siirretään. Pilvitietokantaan ei kuitenkaan siirretä asiakkaiden sensitiivistä dataa, jotta tietoturva säilyisi korkealla tasolla. Data luotaisiin tekoälyä käyttäen.
@@ -71,6 +71,6 @@ Datasta luotiin suunniteltu Streamlit-verkkokäyttöliittymä, joka pystyi näyt
 
 Projektista luotiin myös verkkosivu, joka antaa yleiskuvauksen projektista, esittelee projektitiimin ja linkittää tarpeellisiin dokumentaatioihin, Github-repositoryyn sekä Streamlit-sovellukseen.
 
-## Käyttöohjeet
+## How to Use
 
 Instructions on how to use the project.
