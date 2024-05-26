@@ -1,53 +1,48 @@
-# Project Name
+# Pop-Up Joulumyymälä -dataprojekti // Christmas Pop-Up Shop -dataproject
 
 Project Description...
 
 ---
 
-## Table of Contents
+## Sisällysluettelo / Table of Contents
 
-1. [Introduction](#introduction)
-2. [Team Members](#team-members)
-3. [Project Overview](#project-overview)
+1. [Team Members](#team-members)
+2. [Project Overview](#project-overview)
    - [Summary](#summary)
    - [Methods and Technologies](#methods-and-technologies)
    - [Planning](#planning)
    - [Sprint 1](#sprint-1)
    - [Sprint 2](#sprint-2)
-4. [How to Use](#how-to-use)
+3. [How to Use](#how-to-use)
 
 ---
 
-## Introduction
+## Ryhmän Jäsenet // Team Members
 
-Brief introduction to the project.
+- **Kari-Matti Sillanpää**
+  - Pilvitietokannan suunnittelu ja toteutus // Cloud database design and implementation 
+  - [Linkedin](https://linkedin.com/in/kari-matti-sillanpaa) / [GitHub](https://github.com/sillaka1)
+- **Maarit Ahlgren**
+  - Paikallisen tietokannan suunnittelu ja toteutus, PowerBI data-analyysi // Local database design and implementation, PowerBI data-analysis
+  - [Linkedin](https://linkedin.com/in/maarit-a-7a20b8197) / [GitHub](https://github.com/ahlanmaa)
+- **Ville Naumanen**
+  - Paikallisen tietokannan suunnittelu ja toteutus, PowerBI data-analyysi // Local database design and implementation, PowerBI data-analysis
+  - [Linkedin](https://linkedin.com/in/villenaumanen) / [GitHub](https://github.com/NaumVi)
+- **Sami Lappalainen**
+  - Scrum Master/Project Manager, Streamlit ja Nettisivu // Scrum Master/Project Manager, Streamlit and Webpage
+  - [Linkedin](https://linkedin.com/in/sami-lappalainen) / [GitHub](https://github.com/stlgithub)
 
-## Team Members
+## Projektin Yleiskatsaus // Project Overview
 
-- **Name1**
-  - Job Description: 
-  - [Linkedin](linkedin_link_here) / [GitHub](github_link_here)
-- **Name2**
-  - Job Description: 
-  - [Linkedin](linkedin_link_here) / [GitHub](github_link_here)
-- **Name3**
-  - Job Description: 
-  - [Linkedin](linkedin_link_here) / [GitHub](github_link_here)
-- **Name4**
-  - Job Description: 
-  - [Linkedin](linkedin_link_here) / [GitHub](github_link_here)
-
-## Project Overview
-
-### Summary
+### Tiivistelmä // Summary
 
 Description of Title 1...
 
-### Methods and Technologies
+### Työskentelytavat ja Teknologiat // Methods and Technologies
 
 Description of Title 2...
 
-### Planning
+### Suunnittelu // Planning
 
 Description of Title 3...
 
@@ -59,6 +54,6 @@ Description of Title 4...
 
 Description of Title 5...
 
-## How to Use
+## Käyttöohjeet // How to Use
 
 Instructions on how to use the project.
