@@ -32,18 +32,25 @@
 
 ### Tiivistelmä
 
-BearIT:n ICT-Campissa toteutettu harjoitusprojekti, jonka tarkoituksena oli datan käsittelyn opettelu ja harjoittelu. Projektin päätavoitteena oli luoda erilaisia tietokantoja ja toteuttaa monipuolisia data-analyysejä, samalla tutustuen ketteriin kehitysmenetelmiin. Projekti kesti neljä viikkoa, jotka oli jaettu kahteen sprinttiin. Näiden viikkojen aikana opiskeltiin myös laajemmin IT-alaan liittyviä aiheita BearIT tarjoamien kurssien kautta ja alan ammattilaisten pitämillä luennoilla.
+BearIT:n ICT-Campissa toteutettu harjoitusprojekti, jonka tarkoituksena oli datan käsittelyn opettelu ja harjoittelu. Projektin päätavoitteena oli luoda erilaisia tietokantoja ja toteuttaa monipuolisia data-analyysejä, samalla tutustuen ketteriin kehitysmenetelmiin.
+
+Projekti kesti neljä viikkoa, jotka oli jaettu kahteen sprinttiin. Näiden viikkojen aikana opiskeltiin myös laajemmin IT-alaan liittyviä aiheita BearIT tarjoamien kurssien kautta ja alan ammattilaisten pitämillä luennoilla.
 
 ### Työskentelytavat ja Teknologiat
 
-Projektissa käytettiin Scrum-menetelmää projektinhallintaan, mikä auttoi hallitsemaan työskentelyä sprinttien aikana. Versiohallinta hoidettiin Githubin avulla, ja Github Projects toimi kanban-/sprint-tauluna. Tiimityöskentelyyn käytettiin Googlen työkaluja, kuten Google Meet ja Google Docs.
+Projektissa käytettiin Scrum-menetelmää projektinhallintaan, mikä auttoi hallitsemaan työskentelyä sprinttien aikana. Versiohallinta hoidettiin Githubin avulla, ja Github Projects toimi kanban-/sprint-tauluna.Tiimityöskentelyyn käytettiin Googlen työkaluja, kuten Google Meet ja Google Docs.
+
 Paikallinen palvelin rakennettiin käyttäen MySQL:ä ja data-analyysit toteutettiin PowerBI:llä. Pilvipalvelin luotiin AWS:n avulla ja verkkopohjainen datanäkymä, sekä sen CRUD-toiminnot toteutettiin Pythonin Streamlit-kirjastoa hyödyntäen. Projektin dokumentaatiota varten koottiin myös verkkosivu, joka luotiin HTML:n ja CSS:n avulla.
 
 ### Suunnittelu
 
-Ennen ensimmäistä Sprinttiä, luotiin projektin suunnitelma ja siihen pohjautuvat käyttäjätarinat, sekä sprint-taulu.
-Projektin suunnitelmana oli luoda kuvitteelliselle pop-up joulumyymälälle paikallinen tietokanta, joka kerää tietoa kanta-asiakkaista, tuotteista, tuotekategorioista ja ostotapahtumista. Paikallisen tietokannan lisäksi myymälälle suunniteltaisiin pilvitietokanta, johon paikallinen data siirretään. Pilvitietokantaan ei kuitenkaan siirretä asiakkaiden sensitiivistä dataa, jotta tietoturva säilyisi korkealla tasolla. Data luotaisiin tekoälyä käyttäen.
-Kun tietokannat valmistuvat, projektin seuraava vaihe olisi luoda datasta dashboardeja. Näiden dashboardien avulla voitiin visualisoida ja analysoida myymälän keräämää dataa. Lisäksi kehitettäisiin verkkopohjainen näkymä, joka mahdollistaisi datan analysoinnin ja esittelyn helppokäyttöisessä, sekä visuaalisesti miellyttävässä muodossa. Verkkokäyttöliittymä mahdollistaisi myös datan poiston, muokkauksen ja syötön. Projektille luotaisiin myös oma verkkosivu, sekä muu dokumentaatio.
+Ennen ensimmäistä Sprinttiä, luotiin projektin suunnitelma ja siihen pohjautuvat käyttäjätarinat, sekä sprint-taulu. Projektin suunnitelmana oli luoda kuvitteelliselle pop-up joulumyymälälle paikallinen tietokanta, joka kerää tietoa kanta-asiakkaista, tuotteista, tuotekategorioista ja ostotapahtumista.
+
+Paikallisen tietokannan lisäksi myymälälle suunniteltaisiin pilvitietokanta, johon paikallinen data siirretään. Pilvitietokantaan ei kuitenkaan siirretä asiakkaiden sensitiivistä dataa, jotta tietoturva säilyisi korkealla tasolla. Data luotaisiin tekoälyä käyttäen.
+
+Kun tietokannat valmistuvat, projektin seuraava vaihe olisi luoda datasta dashboardeja. Näiden dashboardien avulla voitiin visualisoida ja analysoida myymälän keräämää dataa. Lisäksi kehitettäisiin verkkopohjainen näkymä, joka mahdollistaisi datan analysoinnin ja esittelyn helppokäyttöisessä, sekä visuaalisesti miellyttävässä muodossa. Verkkokäyttöliittymä mahdollistaisi myös datan poiston, muokkauksen ja syötön.
+
+Projektille luotaisiin myös oma verkkosivu, sekä muu dokumentaatio.
 
 ### Sprint 1
 
@@ -73,4 +80,4 @@ Projektista luotiin myös verkkosivu, joka antaa yleiskuvauksen projektista, esi
 
 ## Käyttöohjeet
 
-Instructions on how to use the project.
+---
