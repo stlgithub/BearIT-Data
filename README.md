@@ -9,14 +9,12 @@ Project Description...
 1. [Introduction](#introduction)
 2. [Team Members](#team-members)
 3. [Project Overview](#project-overview)
-   - [Title 1](#title-1)
-   - [Title 2](#title-2)
-   - [Title 3](#title-3)
-   - [Title 4](#title-4)
-   - [Title 5](#title-5)
+   - [Summary](#summary)
+   - [Methods and Technologies](#methods-and-technologies)
+   - [Planning](#planning)
+   - [Sprint 1](#sprint-1)
+   - [Sprint 2](#sprint-2)
 4. [How to Use](#how-to-use)
-5. [Contributing](#contributing)
-6. [License](#license)
 
 ---
 
@@ -41,34 +39,26 @@ Brief introduction to the project.
 
 ## Project Overview
 
-### Title 1
+### Summary
 
 Description of Title 1...
 
-### Title 2
+### Methods and Technologies
 
 Description of Title 2...
 
-### Title 3
+### Planning
 
 Description of Title 3...
 
-### Title 4
+### Sprint 1
 
 Description of Title 4...
 
-### Title 5
+### Sprint 2
 
 Description of Title 5...
 
 ## How to Use
 
 Instructions on how to use the project.
-
-## Contributing
-
-Guidelines for contributing to the project.
-
-## License
-
-Information about the project's license.
