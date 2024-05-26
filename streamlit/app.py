@@ -295,6 +295,7 @@ if st.session_state.logged_in or st.session_state.use_csv:
                     st.title("Valitse vain yksi: kellonaika tai ostotapahtuma.")
 
     def page_datan_syotto():
+        st.title('Syötä dataa')
         if st.session_state.use_csv:
             st.write("Datan syöttö ei ole käytettävissä CSV-tilassa.")
         else:
@@ -326,6 +327,7 @@ if st.session_state.logged_in or st.session_state.use_csv:
                         st.error(f'Error inserting data: {e}')
 
     def page_datan_poisto():
+        st.title('Poista dataa')
         if st.session_state.use_csv:
             st.write("Datan poisto ei ole käytettävissä CSV-tilassa.")
         else:
@@ -337,6 +339,7 @@ if st.session_state.logged_in or st.session_state.use_csv:
                     st.success(f'Data deleted from {table_name}')
 
     def page_datan_muokkaus():
+        st.title('Muokkaa dataa')
         if st.session_state.use_csv:
             st.write("Datan muokkaus ei ole käytettävissä CSV-tilassa.")
         else:
