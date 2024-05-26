@@ -50,7 +50,7 @@ if 'logged_in' not in st.session_state:
 
 if not st.session_state.logged_in and not st.session_state.use_csv:
     st.title("Input username and password")
-    st.write("For demo purposes, you can skip the login, in which case the app will use data from CSV files. To use the local database, download the SQL files and app.py from our [GitHub repository](https://github.com/stlgithub/BearIT-Data) and run it in a code editor.")
+    st.write("For demo purposes, you can skip the login, in which case the app will use data from CSV files. To use the local database, download the SQL files and app.py from our [GitHub repository](https://github.com/stlgithub/BearIT-Data) and run the app from a code editor.")
     tunnus = st.text_input("Username")
     salasana = st.text_input("Password", type="password")
 
@@ -92,15 +92,16 @@ def delete_data(query, values):
     connection.close()
 
 def fetch_data(query):
+    csv_folder = 'CSV/'  # Folder name where CSV files are located
     if st.session_state.use_csv:
         if "asiakas" in query.lower():
-            return pd.read_csv('asiakas.csv')
+            return pd.read_csv(csv_folder + 'asiakas.csv')
         elif "myynti" in query.lower():
-            return pd.read_csv('myynti.csv')
+            return pd.read_csv(csv_folder + 'myynti.csv')
         elif "tuotekategoriat" in query.lower():
-            return pd.read_csv('tuotekategoriat.csv')
+            return pd.read_csv(csv_folder + 'tuotekategoriat.csv')
         elif "tuotteet" in query.lower():
-            return pd.read_csv('tuotteet.csv')
+            return pd.read_csv(csv_folder + 'tuotteet.csv')
     else:
         connection = get_db_connection(st.session_state.username, st.session_state.password)
         df = pd.read_sql(query, connection)
