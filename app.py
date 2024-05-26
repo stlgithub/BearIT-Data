@@ -4,22 +4,36 @@ import plotly.express as px
 import mysql.connector
 from datetime import datetime
 
-def get_db_connection(username, password):
+def get_db_connection(username=None, password=None):
+    if username is None or password is None:
+        username = st.secrets["database"]["username"]
+        password = st.secrets["database"]["password"]
     connection = mysql.connector.connect(
-        host=st.secrets["database"]["host"],
+        host='localhost',
         user=username,
         password=password,
-        database=st.secrets["database"]["database"]
+        database='popup_myynti'
     )
     return connection
 
-def validate_login(username, password):
+def validate_login(username=None, password=None):
+    if username is None or password is None:
+        username = st.secrets["database"]["username"]
+        password = st.secrets["database"]["password"]
     try:
         connection = get_db_connection(username, password)
         connection.close()
         return True
     except mysql.connector.Error as err:
         return False
+
+#def validate_login(username, password):
+#    try:
+#        connection = get_db_connection(username, password)
+#        connection.close()
+#        return True
+#    except mysql.connector.Error as err:
+#        return False
 
 #def get_db_connection(username, password):
 #    connection = mysql.connector.connect(
