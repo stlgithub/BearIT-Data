@@ -36,7 +36,7 @@ Project Description...
 
 ### Tiivistelmä // Summary
 
-Tämä projekti oli osa BearIT:n ICT-Camp:iä. Ryhmämme loi kuvitteelliselle 
+
 
 ### Työskentelytavat ja Teknologiat // Methods and Technologies
 
