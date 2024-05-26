@@ -6,10 +6,10 @@ from datetime import datetime
 
 def get_db_connection(username, password):
     connection = mysql.connector.connect(
-        host='localhost',
+        host=st.secrets["database"]["host"],
         user=username,
         password=password,
-        database='popup_myynti'
+        database=st.secrets["database"]["database"]
     )
     return connection
 
@@ -20,6 +20,15 @@ def validate_login(username, password):
         return True
     except mysql.connector.Error as err:
         return False
+
+#def get_db_connection(username, password):
+#    connection = mysql.connector.connect(
+#        host='localhost',
+#        user=username,
+#        password=password,
+#        database='popup_myynti'
+#    )
+#    return connection
 
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
