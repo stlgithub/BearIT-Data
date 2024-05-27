@@ -1,4 +1,4 @@
-# Pop-Up Joulumyymälä -dataprojekti - [Click Here for English](README_eng.md)
+# Pop-Up Joulumyymälä -dataprojekti - [in English](README_eng.md)
 
 ## Sisällysluettelo
 
