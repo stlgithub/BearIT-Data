@@ -1,4 +1,4 @@
-# Christmas Pop-Up Shop -dataproject - [Click Here for Finnish](README.md)
+# Christmas Pop-Up Shop -dataproject - [Suomeksi](README.md)
 
 ## Table of Contents
 
